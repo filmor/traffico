@@ -1,0 +1,6 @@
+bld(
+        features = 'cxx cprogram',
+        source = bld.glob("*.cpp"),
+        target = 'traffico',
+        uselib = "BOOST_GRAPH"
+    )
