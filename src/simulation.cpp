@@ -15,7 +15,6 @@ namespace traffico
 
         // Add crossings
         // Add roads
-
     }
 
     void simulation::run ()

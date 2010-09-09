@@ -1,7 +1,5 @@
 #include "road_net.hpp"
 
-#include "route.hpp"
-
 #include <boost/graph/astar_search.hpp>
 
 namespace traffico
@@ -84,19 +82,19 @@ namespace traffico
     route road_net::get_route (road_net::node_descriptor start_node,
                                road_net::node_descriptor end_node) const
     {
-        route_visitor vis;
-
+        std::vector<road_net::node_descriptor> p (num_vertices(net_));
         try
         {
             astar_search (net_, start_node,
                           heuristic(start_node),
                           visitor(goal_visitor(end_node)).
-                          weight_map(speed_weight_map(net_))
+                          weight_map(speed_weight_map(net_)).
+                          predecessor_map(&p[0])
                          );
         }
         catch (found_goal const& exc)
         {
-            return vis.result;
+            return p;
         }
 
         throw no_route_found();

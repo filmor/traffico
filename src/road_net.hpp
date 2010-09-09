@@ -10,29 +10,14 @@ namespace traffico
     struct road_exists {};
     struct no_route_found {};
 
-    // Declaration
-    class route;
-
     class road_net
     {
     public:
         road_net ();
 
     private:
-        struct road
-        {
-            // TODO: Use units.hpp
-            // km/h
-            double speed_limit;
-            // km
-            double length;
-        };
-
-        struct node
-        {
-            bool is_crossing;
-            // More stuff later
-        };
+        struct node;
+        struct road;
 
     public:
         typedef adjacency_list<vecS, vecS, undirectedS, node, road>
@@ -40,11 +25,8 @@ namespace traffico
 
         typedef graph_type::vertex_descriptor node_descriptor;
         typedef graph_type::edge_descriptor road_descriptor;
+        typedef std::vector<node_descriptor> route;
 
-    private:
-        graph_type net_;
-
-    public:
         // Source/Sink of cars
         // Nodes have a property "factory" which is an object of class
         // car_factory (initialized with the parameters given here)
@@ -59,6 +41,26 @@ namespace traffico
         road_descriptor add_road (node_descriptor start_node, node_descriptor end_node);
 
         route get_route (node_descriptor start_node, node_descriptor end_node) const;
+
+    private:
+        graph_type net_;
+    };
+
+    typedef road_net::route route;
+    
+    struct road_net::node
+    {
+        bool is_crossing;
+        // More stuff later
+    };
+
+    struct road_net::road
+    {
+        // TODO: Use units.hpp
+        // km/h
+        double speed_limit;
+        // km
+        double length;
     };
 
 }
